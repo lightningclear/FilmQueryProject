@@ -44,6 +44,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setReplacement_cost(rs.getDouble("replacement_cost"));
 				film.setRating(rs.getString("rating"));
 				film.setSpecial_features(rs.getString("special_features"));
+				film.setActors(findActorsByFilmId(filmId));
 			}
 			rs.close();
 			stmt.close();
@@ -59,18 +60,18 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Actor findActorById(int actorId) {
 		Actor actor = null;
-		List<Actor> actors = new ArrayList<Actor>();
 		// TODO: Actor query for film id
 		// Instantiate new Actor for each rs row,
 		// add to actors list.
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			// String sql = "SELECT * FROM film where id = ?";
-			String sql = "SELECT id,first_name, last_name";
+			String sql = "SELECT id,first_name, last_name From actor where id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorId);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
+				actor = new Actor();
 				actor.setId(rs.getInt(1));
 				actor.setFirst_name(rs.getString("first_name"));
 				actor.setLast_name(rs.getString("last_name"));
@@ -88,22 +89,25 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) {
-		Actor actor = null;
 		List<Actor> actors = new ArrayList<Actor>();
 		// TODO: Actor query for film id
 		// Instantiate new Actor for each rs row,
 		// add to actors list.
+
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			// String sql = "SELECT * FROM film where id = ?";
-			String sql = "SELECT id,first_name, last_name";
+			String sql = "SELECT id,first_name, last_name " + "FROM actor join film_actor "
+					+ "ON actor.id = film_actor.actor_id " + "WHERE film_actor.film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
+				Actor actor = new Actor();
 				actor.setId(rs.getInt(1));
 				actor.setFirst_name(rs.getString("first_name"));
 				actor.setLast_name(rs.getString("last_name"));
+				actors.add(actor);
 			}
 
 			rs.close();

@@ -1,5 +1,6 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 //classes the represent data entries
@@ -18,6 +19,8 @@ public class Film {
 	private double replacement_cost;
 	private String rating;
 	private String special_features;
+	
+	private List<Actor> actors;
 
 	public Film() {
 		super();
@@ -36,6 +39,7 @@ public class Film {
 		this.replacement_cost = replacement_cost;
 		this.rating = rating;
 		this.special_features = special_features;
+
 	}
 
 	public int getId() {
@@ -126,6 +130,14 @@ public class Film {
 		this.special_features = special_features;
 	}
 
+	public List<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -147,11 +159,11 @@ public class Film {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Film [id=").append(id).append(", title=").append(title).append(", description=")
-				.append(description).append(", release_year=").append(release_year).append(", language_id=")
-				.append(language_id).append(", rental_duration=").append(rental_duration).append(", rental_rate=")
-				.append(rental_rate).append(", length=").append(length).append(", replacement_cost=")
-				.append(replacement_cost).append(", rating=").append(rating).append(", special_features=")
+		builder.append("Film [id=" ).append(id).append(", title=" ).append(title).append(", description=" )
+				.append(description).append(", release_year=" ).append(release_year).append(", language_id=" )
+				.append(language_id).append(", rental_duration=" ).append(rental_duration).append(", rental_rate=" )
+				.append(rental_rate).append(", length=" ).append(length).append(", replacement_cost=" )
+				.append(replacement_cost).append(", rating=" ).append(rating).append(", special_features=" )
 				.append(special_features).append("]");
 		return builder.toString();
 	}
