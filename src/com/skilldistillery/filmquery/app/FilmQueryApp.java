@@ -26,7 +26,7 @@ public class FilmQueryApp {
     List<Actor> actors = db.findActorsByFilmId(1);
     System.out.println(actors);
     for (Actor a : film.getActors()) {
-		System.out.println(a);
+		System.out.println(a.getFirst_name() + " " + a.getLast_name());
 	}
   }
 
