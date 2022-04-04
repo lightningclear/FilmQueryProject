@@ -12,7 +12,7 @@ public class Film {
 	private String title;
 	private String description;
 	private Integer release_year;
-	private int language_id;
+	private String language;
 	private double rental_duration;
 	private double rental_rate;
 	private Integer length;
@@ -26,13 +26,13 @@ public class Film {
 		super();
 	}
 
-	public Film(int id, String title, String description, Integer release_year, int language_id, int rental_duration,
+	public Film(int id, String title, String description, Integer release_year, String language, int rental_duration,
 			double rental_rate, Integer length, double replacement_cost, String rating, String special_features) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.release_year = release_year;
-		this.language_id = language_id;
+		this.language = language;
 		this.rental_duration = rental_duration;
 		this.rental_rate = rental_rate;
 		this.length = length;
@@ -74,12 +74,12 @@ public class Film {
 		this.release_year = release_year;
 	}
 
-	public int getLanguage_id() {
-		return language_id;
+	public String getLanguage() {
+		return language;
 	}
 
-	public void setLanguage_id(int language_id) {
-		this.language_id = language_id;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public double getRental_duration() {
@@ -140,7 +140,8 @@ public class Film {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(actors, description, id, language, length, rating, release_year, rental_duration,
+				rental_rate, replacement_cost, special_features, title);
 	}
 
 
@@ -153,19 +154,25 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
-		return id == other.id;
+		return Objects.equals(actors, other.actors) && Objects.equals(description, other.description) && id == other.id
+				&& Objects.equals(language, other.language) && Objects.equals(length, other.length)
+				&& Objects.equals(rating, other.rating) && Objects.equals(release_year, other.release_year)
+				&& Double.doubleToLongBits(rental_duration) == Double.doubleToLongBits(other.rental_duration)
+				&& Double.doubleToLongBits(rental_rate) == Double.doubleToLongBits(other.rental_rate)
+				&& Double.doubleToLongBits(replacement_cost) == Double.doubleToLongBits(other.replacement_cost)
+				&& Objects.equals(special_features, other.special_features) && Objects.equals(title, other.title);
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Film [id=" ).append(id).append(", title=" ).append(title).append(", description=" )
-				.append(description).append(", release_year=" ).append(release_year).append(", language_id=" )
-				.append(language_id).append(", rental_duration=" ).append(rental_duration).append(", rental_rate=" )
-				.append(rental_rate).append(", length=" ).append(length).append(", replacement_cost=" )
-				.append(replacement_cost).append(", rating=" ).append(rating).append(", special_features=" )
-				.append(special_features).append("]");
-		return builder.toString();
+		String output = "Film: \n\n Id: " + id
+				+ "	\n\n Title: " + title
+				+ "	\n\n Description: " + description
+				+ "	\n\n Release_year: " + release_year
+				+ "	\n\n Language: " + language
+				+ " \n\n Rating: " + rating
+				+ " \n\n Actors: " + getActors();
+		return output;
 	}
 
 }
