@@ -122,9 +122,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
-	public List<Film> searchFilmByKeyword(String noodles) {
+	public List<Film> searchFilmByKeyword(String keyword) {
 		Film film = null;
 		List<Film> films = new ArrayList<Film>();
+		List<Actor> actors = new ArrayList<Actor>();
 
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
@@ -136,8 +137,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 					+ " WHERE title like ? OR description like ? ";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%" + noodles + "%");
-			stmt.setString(2, "%" + noodles + "%");
+			stmt.setString(1, "%" + keyword + "%");
+			stmt.setString(2, "%" + keyword + "%");
 
 //			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
@@ -145,6 +146,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			while (rs.next()) {
 				foundFilm = true;
 				film = new Film();
+				Actor actor = new Actor();
 				film.setId(rs.getInt("id"));
 				film.setTitle(rs.getString("title"));
 				film.setDescription(rs.getString("description"));
@@ -156,7 +158,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 //				film.setReplacement_cost(rs.getDouble("replacement_cost"));
 				film.setRating(rs.getString("rating"));
 //				film.setSpecial_features(rs.getString("special_features"));
-//				film.setActors(findActorsByFilmId(noodles));
+//				film.setActors(findActorsByFilmId(keyword));
+//				actor.setId(rs.getInt(1));
+				actor.setFirst_name(rs.getString("first_name"));
+				actor.setLast_name(rs.getString("last_name"));
+				actors.add(actor);
 				films.add(film);
 
 			}
